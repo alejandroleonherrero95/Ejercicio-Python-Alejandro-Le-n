@@ -79,8 +79,13 @@ def longitudes_palabras(frase):
 
 #13. Genera una función la cual, para un conjunto de caracteres, devuelva una lista de tuplas con cada letra en mayúsculas y minúsculas. Las letras no pueden estar repetidas .Usa la función map.
 def mayusculas_minusculas(conjunto):
-    unicas = set(conjunto)
-    return list(map(lambda x: (x.upper(), x.lower()), unicas))
+    resultado = []
+    vistos = set()
+    for ch in conjunto:
+        if ch not in vistos:
+            vistos.add(ch)
+            resultado.append((ch.upper(), ch.lower()))
+    return resultado
 
 #14. Crea una función que retorne las palabras de una lista de palabras que comience con una letra en especifico. Usa la función filter().
 def palabras_con_letra(lista, letra):
@@ -96,6 +101,8 @@ def palabras_mas_largas_que(cadena, n):
 #17. Crea una función que tome una lista de dígitos y devuelva el número correspondiente. Por ejemplo, [5,7,2] corresponde al número quinientos setenta y dos (572). Usa la función reduce()
 from functools import reduce
 def lista_a_numero(lista):
+    if not lista:
+        return 0
     return reduce(lambda x, y: x * 10 + y, lista)
 
 #18. Escribe un programa en Python que cree una lista de diccionarios que contenga información de estudiantes (nombre, edad, calificación) y use la función filter para extraer a los estudiantes con una calificación mayor o igual a 90. Usa la función filter().
@@ -115,14 +122,16 @@ cubo = lambda x: x ** 3
 #22. Dada una lista numérica, obtén el producto total de los valores de dicha lista.Usa la función reduce().
 from functools import reduce
 def producto_total(lista):
-    return reduce(lambda x, y: x * y, lista)
+    return reduce(lambda x, y: x * y, lista, 1)
 
 #23. Concatena una lista de palabras. Usa la función reduce().
 def concatenar_palabras(lista):
-    return reduce(lambda x, y: x + y, lista)
+    return reduce(lambda x, y: x + y, lista, "")
 
 #24. Calcula la diferencia total en los valores de una lista. Usa la función reduce().
 def diferencia_total(lista):
+    if not lista:
+        return 0
     return reduce(lambda x, y: x - y, lista)
 
 #25. Crea una función que cuente el número de caracteres en una cadena de texto dada.
@@ -134,7 +143,9 @@ resto = lambda x, y: x % y
 
 #27. Crea una función que calcule el promedio de una lista de números.
 def calcular_promedio(lista):
-    return sum(lista) / len(lista) if lista else 0
+    if not lista:
+        raise ValueError("La lista no puede estar vacía.")
+    return sum(lista) / len(lista)
 
 #28. Crea una función que busque y devuelva el primer elemento duplicado en una lista dada.
 def primer_duplicado(lista):
@@ -204,26 +215,17 @@ class Arbol:
         }
 
 #36. Crea la clase UsuarioBanco ,representa a un usuario de un banco con su nombre, saldo y si tiene o no cuenta corriente. Proporciona métodos para realizar operaciones como retirar dinero, transferir dinero desde otro usuario y agregar dinero al saldo. 
-
 class UsuarioBanco:
-    def __init__(self, nombre, saldo, cuenta_corriente=True):
+ class UsuarioBanco:
+    def __init__(self, nombre, saldo):
         self.nombre = nombre
         self.saldo = saldo
-        self.cuenta_corriente = cuenta_corriente
-
-    def retirar_dinero(self, cantidad):
-        if cantidad > self.saldo:
-            raise ValueError("Saldo insuficiente")
-        self.saldo -= cantidad
 
     def transferir_dinero(self, otro_usuario, cantidad):
-        if cantidad > otro_usuario.saldo:
-            raise ValueError("Saldo insuficiente en el otro usuario")
-        otro_usuario.saldo -= cantidad
-        self.saldo += cantidad
-
-    def agregar_dinero(self, cantidad):
-        self.saldo += cantidad
+        if cantidad > self.saldo:
+            raise ValueError("Saldo insuficiente propio.")
+        self.saldo -= cantidad
+        otro_usuario.saldo += cantidad
 
 #37. Crea una función llamada procesar_texto que procesa un texto según la opción especificada: contar_palabras , reemplazar_palabras , eliminar_palabra . Estas opciones son otras funciones que tenemos que definir primero y llamar dentro de la función procesar_texto .
 def contar_palabras(texto):
