@@ -21,9 +21,11 @@ def diferencia_listas(lista1, lista2):
 
 #5. Ecribe una función que tome una lista de números como parámetro y un valor opcional nota_aprobado, que por defecto es 5. La función debe calcular la media de los números en la lista y determinar si la media es mayor o igual que nota aprobado. Si es así, el estado será "aprobado", de lo contrario, será "suspenso". La función debe devolver una tupla que contenga la media y el estado.
 def evaluar_media(notas, nota_aprobado=5):
+    if not notas:
+        raise ValueError("La lista de notas no puede estar vacía.")
     media = sum(notas) / len(notas)
     estado = "aprobado" if media >= nota_aprobado else "suspenso"
-    return (media, estado)
+    return media, estado
 
 #6. Escribe una función que calcule el factorial de un número de manera recursiva.
 def factorial(n):
